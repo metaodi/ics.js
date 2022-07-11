@@ -1,7 +1,7 @@
 /* global saveAs, Blob, BlobBuilder, console */
 /* exported ics */
 
-var ics = function(uidDomain, prodId) {
+var ics = function(uidDomain, prodId, name) {
   'use strict';
 
   if (navigator.userAgent.indexOf('MSIE') > -1 && navigator.userAgent.indexOf('MSIE 10') == -1) {
@@ -11,12 +11,15 @@ var ics = function(uidDomain, prodId) {
 
   if (typeof uidDomain === 'undefined') { uidDomain = 'default'; }
   if (typeof prodId === 'undefined') { prodId = 'Calendar'; }
+  if (typeof name === 'undefined') { name = 'Calendar'; }
 
   var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
   var calendarEvents = [];
   var calendarStart = [
     'BEGIN:VCALENDAR',
     'PRODID:' + prodId,
+    'NAME:' + name,
+    'X-WR-CALNAME:' + name,
     'VERSION:2.0'
   ].join(SEPARATOR);
   var calendarEnd = SEPARATOR + 'END:VCALENDAR';
