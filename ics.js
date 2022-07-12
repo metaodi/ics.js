@@ -50,7 +50,7 @@ var ics = function(uidDomain, prodId, name) {
      * @param  {string} begin       Beginning date of event
      * @param  {string} stop        Ending date of event
      */
-    'addEvent': function(subject, description, location, begin, stop, rrule) {
+    'addEvent': function(subject, description, location, begin, stop, status, rrule) {
       // I'm not in the mood to make these optional... So they are all required
       if (typeof subject === 'undefined' ||
         typeof description === 'undefined' ||
@@ -110,6 +110,9 @@ var ics = function(uidDomain, prodId, name) {
       }
 
       //TODO add time and time zone? use moment to format?
+      if (!status) {
+        status = 'free';
+      }
       var start_date = new Date(begin);
       var end_date = new Date(stop);
       var now_date = new Date();
@@ -187,6 +190,7 @@ var ics = function(uidDomain, prodId, name) {
         'DTEND;VALUE=DATE-TIME:' + end,
         'LOCATION:' + location,
         'SUMMARY;LANGUAGE=en-us:' + subject,
+        'X-MICROSOFT-CDO-BUSYSTATUS:' + status.toUpperCase(),
         'TRANSP:TRANSPARENT',
         'END:VEVENT'
       ];
